@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // !!! IMPORTANT: REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL !!!
     // e.g., 'https://script.google.com/macros/s/AKfycbz_XXXXXXXXXXXX/exec'
-    const GAS_WEB_APP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; 
+    const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz1tyCv6_ehvXo578Ugu_swjZicQ8rXqfdlbkcy0eRQgRmnXO-q4cEMtWCAdBQ-VVY4Qw/exec'; 
 
     /**
      * Helper function to show and hide elements.
