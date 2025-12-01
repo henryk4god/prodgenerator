@@ -154,10 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = {};
         formData.forEach((value, key) => data[key] = value);
         
-        // The structure of the GAS call requires the single JSON prompt string.
+        // --- PROCESSING FOR SUBTOPICS ---
+        // Splits the textarea content by new lines, trims whitespace, and filters out empty lines.
+        const subtopicsArray = data.subtopics
+            ? data.subtopics
+                .split('\n')
+                .map(topic => topic.trim())
+                .filter(topic => topic.length > 0)
+            : [];
+        // ------------------------------------
+        
+        // Prepare the payload JSON object for the backend prompt.
         const promptData = {
             product_type: data.product_type,
             item_title: data.item_title,
+            subtopics: subtopicsArray, // <-- NEW FIELD
             item_position: data.item_position,
             product_goal: data.product_goal,
             audience_profile: data.audience_profile,
@@ -167,8 +178,9 @@ document.addEventListener('DOMContentLoaded', () => {
             constraints: data.constraints
         };
         
-        // This is the string that will be read by the GAS backend in e.parameter.input
+        // Create FormData to send to GAS (CORS-friendly proxy)
         const payload = new FormData();
+        // The entire prompt data object is stringified and sent under the 'input' key.
         payload.append('input', JSON.stringify(promptData));
 
         toggleElement(loadingOverlay, true);
@@ -179,22 +191,11 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch(GAS_WEB_APP_URL, {
                 method: 'POST',
-                body: payload, // Send as FormData to bypass CORS using GAS
-                mode: 'no-cors' // This is sometimes required for older GAS deployments, but usually the FormData/POST is enough
+                body: payload, // Send as FormData
             });
             
-            // Because we can't reliably read the response body in a 'no-cors' context, 
-            // the GAS script must return a simple success status (200) or an error (e.g., 500)
-            // AND we must ensure that the JSON result is readable.
-            
-            // For a robust GAS deployment, the script returns the JSON string directly.
-            // We use the `exec` URL which typically allows the script to return the content directly.
-            
-            // For the purpose of this example, we'll assume the response contains the text.
-            // In a real deployed GAS setup, the 'Content-Type: application/json' header 
-            // and the text result would be returned and readable.
-            
             if (!response.ok) {
+                // If response status is not 200 (e.g., 500 from GAS error)
                 throw new Error(`Server responded with status: ${response.status}`);
             }
 
@@ -205,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 resultJson = JSON.parse(jsonText);
             } catch (e) {
-                // If parsing fails, it's likely an error from the AI or GAS.
+                // If parsing fails, it's likely an error from the AI or GAS returning an error string.
                 throw new Error(`Failed to parse JSON response. Raw output: ${jsonText.substring(0, 200)}...`);
             }
             
