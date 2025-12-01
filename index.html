@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Develop Your Digital Product</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>🚀 Develop Your Digital Product</h1>
+        <p>Instantly expand a single item into a full, publishable product segment using an expert AI prompt.</p>
+    </header>
+
+    <main>
+        <div id="loading-overlay" class="hidden">
+            <div class="spinner"></div>
+            <p>Generating Product Segment...</p>
+        </div>
+        
+        <form id="product-form">
+            <h2>Segment Details</h2>
+            
+            <div class="input-group">
+                <label for="item_title">Item Title (Chapter/Lesson/Module Name)</label>
+                <input type="text" id="item_title" name="item_title" placeholder="e.g., The 5-Step Lead Magnet Formula" required>
+            </div>
+
+            <div class="input-group">
+                <label for="item_position">Position in Product</label>
+                <input type="text" id="item_position" name="item_position" placeholder="e.g., Chapter 3, Module 2, Lesson 1" required>
+            </div>
+
+            <div class="input-group">
+                <label for="product_type">Product Type</label>
+                <select id="product_type" name="product_type" required>
+                    <option value="ebook">Ebook</option>
+                    <option value="course">Course</option>
+                    <option value="template">Template Pack</option>
+                    <option value="toolkit">Toolkit</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="depth_level">Depth Level (1=Brief, 2=Standard, 3=Comprehensive)</label>
+                <select id="depth_level" name="depth_level" required>
+                    <option value="1">1 (Brief / Quick Deploy)</option>
+                    <option value="2" selected>2 (Standard)</option>
+                    <option value="3">3 (Comprehensive)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="tone">Tone</label>
+                <input type="text" id="tone" name="tone" placeholder="e.g., friendly professional, conversational, formal" value="friendly professional" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="product_goal">Overall Product Goal (Optional)</label>
+                <input type="text" id="product_goal" name="product_goal" placeholder="e.g., Help small businesses launch their first profitable digital product.">
+            </div>
+
+            <div class="input-group">
+                <label for="audience_profile">Target Audience Profile (Optional)</label>
+                <textarea id="audience_profile" name="audience_profile" rows="2" placeholder="e.g., Solo entrepreneurs and freelancers who are non-tech-savvy."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="constraints">Constraints (Optional - Word limits, must-include, etc.)</label>
+                <textarea id="constraints" name="constraints" rows="2" placeholder="e.g., Ensure all steps are beginner-friendly."></textarea>
+            </div>
+            
+            <button type="submit" id="submit-button" class="btn-primary">Develop Product Segment</button>
+        </form>
+
+        <section id="results-container" class="hidden">
+            <h2>✨ Generated Product Segment</h2>
+            <div id="results-content" class="card">
+                </div>
+            <button id="copy-json-btn" class="btn-secondary hidden" data-copied-text="JSON Copied!">Copy Full JSON</button>
+        </section>
+        
+        <div id="error-message" class="card error hidden">
+            </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Digital Product Generator</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
